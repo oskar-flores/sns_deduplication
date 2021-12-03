@@ -1,14 +1,16 @@
-# Welcome to your CDK TypeScript project!
+#SNS deduplication sample!
 
-This is a blank project for TypeScript development with CDK.
+This projects creates a ApiGateway connected to SNS and a Lambda function.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+SNS has deduplication by content. So only the first message with the same content will be delivered.
 
 ## Useful commands
-
- * `npm run build`   compile typescript to js
- * `npm run watch`   watch for changes and compile
- * `npm run test`    perform the jest unit tests
+ * `cdk bootstrap`: Initialize the CDK toolkit.
  * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk synth`       emits the synthesized CloudFormation template
+ * `cdk destroy`     delete this stack
+
+Once you have the stack deployed, you can test the function by sending a message to the topic.
+
+`curl -GET http://apigatewayUlr/prod/queue?message=HeyIWontBeDuplicated`
+
+If you call this curl command many times, the lambda will be triggered only once. You can see the message in the logs.
